@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Smart AI Prompt Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 flex flex-col justify-between font-sans">
+
+    <header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white text-xl shadow-md">⚡</div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight">PromptForge AI</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Universal Expert Prompt Generator</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleDarkMode()" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition" title="Toggle Theme">
+                    <span id="themeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 flex-grow grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <section class="lg:col-span-7 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-base font-semibold flex items-center gap-2">
+                        <span>🛠️</span> Configure Parameters
+                    </h2>
+                    <button type="button" onclick="clearForm()" class="text-xs text-brand-600 dark:text-brand-400 hover:underline">Reset Form</button>
+                </div>
+
+                <form id="promptForm" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Domain / Category</label>
+                        <select id="category" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+                            <option value="development">💻 Web & App Development</option>
+                            <option value="business">📈 Business Strategy & Marketing</option>
+                            <option value="studies">📚 Studies, Research & Education</option>
+                            <option value="finance">💹 Stock Market & Financial Analysis</option>
+                            <option value="content">✍️ Content Writing & Creative Arts</option>
+                            <option value="general" selected>🌐 General / Other Random Topic</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Target AI Persona (Role)</label>
+                        <input type="text" id="persona" placeholder="e.g., Senior Full-Stack Architect, Growth Hacker, Ivy League Tutor" 
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">What do you want to accomplish?</label>
+                        <textarea id="rawInput" rows="4" placeholder="Type your rough ideas, goals, or requirements here... (e.g., I need a scalable user authentication system using JWT in Node.js with refresh token rotation.)"
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition resize-none"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Desired Output Tone</label>
+                            <select id="tone" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+                                <option value="Professional & Technical">Professional & Technical</option>
+                                <option value="Simple & Beginner-friendly">Simple & Beginner-friendly</option>
+                                <option value="Direct & Concise">Direct & Concise</option>
+                                <option value="Creative & Engaging">Creative & Engaging</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Format Requirement</label>
+                            <select id="outputFormat" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+                                <option value="Step-by-step breakdown with code/examples">Step-by-step breakdown</option>
+                                <option value="Structured Markdown Report">Structured Markdown Report</option>
+                                <option value="Bullet points summary">Bullet points summary</option>
+                                <option value="Executable Action Plan">Executable Action Plan</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <button type="button" onclick="generatePrompt()" 
+                class="mt-6 w-full bg-brand-600 hover:bg-brand-700 text-white font-medium py-3 px-4 rounded-xl transition shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                <span>✨</span> Generate Structured Expert Prompt
+            </button>
+        </section>
+
+        <section class="lg:col-span-5 flex flex-col gap-6">
+            
+            <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between flex-grow">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="text-base font-semibold flex items-center gap-2">
+                            <span>🤖</span> Optimized Prompt
+                        </h2>
+                        <span id="charCount" class="text-xs text-slate-400">0 chars</span>
+                    </div>
+                    
+                    <textarea id="outputPrompt" readonly rows="10" placeholder="Your fully engineered expert prompt will be generated here automatically..."
+                        class="w-full p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 font-mono text-xs focus:outline-none resize-none"></textarea>
+                </div>
+
+                <button type="button" onclick="copyPrompt()" id="copyBtn" disabled
+                    class="mt-4 w-full bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-400 text-white font-medium py-2.5 px-4 rounded-xl transition shadow-sm flex items-center justify-center gap-2">
+                    <span id="copyIcon">📋</span> <span id="copyText">Copy to Clipboard</span>
+                </button>
+            </div>
+
+            <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Recent History</h3>
+                    <button onclick="clearHistory()" class="text-xs text-red-500 hover:underline">Clear</button>
+                </div>
+                <div id="historyList" class="space-y-2 max-h-40 overflow-y-auto pr-1">
+                    <p class="text-xs text-slate-400 italic">No history yet. Generated items will show up here.</p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+        <p>PromptForge AI • Single-file web application built with Tailwind CSS & JavaScript.</p>
+    </footer>
+
+    <script>
+        // Check local storage history on load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHistory();
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('themeIcon').innerText = '☀️';
+            }
+        });
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                icon.innerText = '🌙';
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.innerText = '☀️';
+            }
+        }
+
+        function generatePrompt() {
+            const category = document.getElementById('category').value;
+            let persona = document.getElementById('persona').value.trim();
+            const rawInput = document.getElementById('rawInput').value.trim();
+            const tone = document.getElementById('tone').value;
+            const outputFormat = document.getElementById('outputFormat').value;
+
+            if (!rawInput) {
+                alert('Please provide your goals or instructions in the input text area.');
+                return;
+            }
+
+            // Assign smart default personas based on category if left blank
+            if (!persona) {
+                const defaults = {
+                    development: 'Senior Full-Stack Software Architect and Code Security Expert',
+                    business: 'Strategic Business Consultant and Growth Marketing Specialist',
+                    studies: 'World-class Subject Matter Expert, Researcher, and Ivy League Tutor',
+                    finance: 'Quantitative Financial Analyst and Senior Stock Market Strategist',
+                    content: 'Professional Copywriter, Creative Writer, and Storyteller',
+                    general: 'Expert Assistant and Problem Solver'
+                };
+                persona = defaults[category] || 'Expert Consultant';
+            }
+
+            // Constructing an elite prompt engineering blueprint layout
+            const structuredPrompt = `Act as a ${persona}. Your objective is to address the following goal or task with expert-level proficiency.
+
+### Context & Task Specifications:
+- **Domain Focus:** ${category.toUpperCase()}
+- **Core Requirements:** ${rawInput}
+
+### Execution Directives:
+1. Maintain a ${tone} tone throughout the response.
+2. Ensure high accuracy, technical depth, and practical applicability.
+3. Avoid generic fluff or repetitive boilerplate language; deliver direct, high-value insights.
+
+### Required Output Format:
+- Present the final response structured as a **${outputFormat}**.`;
+
+            // Display in output box
+            const outputArea = document.getElementById('outputPrompt');
+            outputArea.value = structuredPrompt;
+            document.getElementById('charCount').innerText = `${structuredPrompt.length} chars`;
+            document.getElementById('copyBtn').disabled = false;
+
+            // Save to LocalStorage History
+            saveToHistory(rawInput, structuredPrompt);
+        }
+
+        function copyPrompt() {
+            const outputArea = document.getElementById('outputPrompt');
+            if (!outputArea.value) return;
+
+            navigator.clipboard.writeText(outputArea.value).then(() => {
+                const copyText = document.getElementById('copyText');
+                const copyIcon = document.getElementById('copyIcon');
+                
+                copyText.innerText = "Copied!";
+                copyIcon.innerText = "✅";
+
+                setTimeout(() => {
+                    copyText.innerText = "Copy to Clipboard";
+                    copyIcon.innerText = "📋";
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy error:', err);
+            });
+        }
+
+        function clearForm() {
+            document.getElementById('promptForm').reset();
+            document.getElementById('outputPrompt').value = '';
+            document.getElementById('charCount').innerText = '0 chars';
+            document.getElementById('copyBtn').disabled = true;
+        }
+
+        function saveToHistory(raw, prompt) {
+            let history = JSON.parse(localStorage.getItem('prompt_history') || '[]');
+            // Add to front, keep latest 5 items
+            history.unshift({ raw: raw.substring(0, 45) + (raw.length > 45 ? '...' : ''), prompt, date: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+            if (history.length > 5) history.pop();
+            localStorage.setItem('prompt_history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            const history = JSON.parse(localStorage.getItem('prompt_history') || '[]');
+            
+            if (history.length === 0) {
+                list.innerHTML = '<p class="text-xs text-slate-400 italic">No history yet. Generated items will show up here.</p>';
+                return;
+            }
+
+            list.innerHTML = history.map((item, index) => `
+                <div onclick="loadHistoryItem(${index})" class="p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition flex items-center justify-between">
+                    <span class="text-xs text-slate-700 dark:text-slate-300 font-medium truncate max-w-[210px]">${item.raw}</span>
+                    <span class="text-[10px] text-slate-400">${item.date}</span>
+                </div>
+            `).join('');
+        }
+
+        function loadHistoryItem(index) {
+            const history = JSON.parse(localStorage.getItem('prompt_history') || '[]');
+            if (history[index]) {
+                document.getElementById('outputPrompt').value = history[index].prompt;
+                document.getElementById('charCount').innerText = `${history[index].prompt.length} chars`;
+                document.getElementById('copyBtn').disabled = false;
+            }
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('prompt_history');
+            renderHistory();
+        }
+    </script>
+</body>
+</html>
